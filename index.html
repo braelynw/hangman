@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+
+<body onload="makeButtons()" align="center">
+<h1 align="center">Hangman</h1>
+<h3 align="center">By: Braelyn Wekwerth</h3>
+
+<select id="category">
+    <option value="1">Animals</option>
+    <option value="2">US Presidents</option>
+    <option value="3">Food</option>
+</select>
+
+<button id="myButton" onclick="giveWord()">Play!</button>
+
+
+<div id="graveyard"></div>
+
+<div id="living">Lives Remaining:</div>
+<div id="lives"></div>
+
+
+<div id="blank"></div>
+<div id="coolButtons" align="center"></div>
+
+<div id="grave">
+    Graveyard:
+</div>
+
+</body>
+</html>
