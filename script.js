@@ -3,16 +3,28 @@
 // categoy. Then have a drop down so you can choose a letter from it. When you press select the
 // code will search the word letter by letter and put it in if it is there
 var animal = ["zebra", "alpaca", "hippopotamus", "giraffe", "lynx", "orangatang", "dolphin"];
-var presidents = ["Nixon", "Johnson", "Obama", "Trump", "Washington","Bush", "Adams", "Jefferson", "Madison"];
+var presidents = ["nixon", "johnson", "obama", "trump", "washington","bush", "adams", "jefferson", "madison"];
 var food = ["grape", "orange", "avacado", "peach", "papaya"];
-var alphabet = ["A", "B", "C", "D", "E", "F", "G","H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+var alphabet = ["a", "b", "c", "d", "e", "f", "g","h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
 var word = "";
 var lives = 6;
 var graveyard = [];
 var picked = [];
 
+function resetVars() {
+    lives = 6;
+    graveyard= [];
+    picked = [];
+    makeButtons();
+    document.getElementById("word").innerHTML="";
 
-function giveWord(category){
+
+}
+
+function startGame(category){
+
+    resetVars();
+
     var category = document.getElementById("category").value;
     console.log(category);
     category = parseInt(category);
@@ -29,7 +41,11 @@ function giveWord(category){
 
     document.getElementById("lives").innerHTML = lives;
     document.getElementById("graveyard").innerHTML = graveyard;
-    document.getElementById("blank").innerHTML = printWord(word);
+
+    makeButtons();
+    printWord();
+    document.getElementById("note").innerHTML = "NOTE: Press 'PLAY!' at any time to restart game";
+
 }
 
 function makeButtons(){
@@ -49,32 +65,71 @@ function makeButtons(){
 
 }
 
-function guessLetter(letter){
-    whatLives = lives;
-    picked.push(letter);
-    document.getElementById("blank").innerHTML = printWord(word);
-    document.getElementById("lives").innerHTML = lives;
 
-    if (whatLives != lives){
-        graveyard.push(letter);
-    }
-
-    document.getElementById("graveyard").innerHTML = graveyard;
-
-}
-
-function printWord(){
+function printWord() {
     var answer = "";
-    if(lives>0){
-        for (var i = 0; i < word.length; i++){
-            if (picked.indexOf(word[i]) > -1){
+    if (lives > 0) {
+        for (var i = 0; i < word.length; i++) {
+            if (picked.indexOf(word[i]) > -1) {
                 answer += word[i]
-            }else{
+            } else {
                 answer += " _"
             }
         }
 
     }
-    return answer;
+
+    if(answer == word) {
+        document.getElementById("word").innerHTML = "Good Job, you got the word! Select a category and press play to play again!"
+    }
+
+    document.getElementById("blank").innerHTML = answer;
+
+    if (lives==6){
+        document.getElementById("image").src = "img/Hangman-0.png";
+    }
+    if (lives==5){
+        document.getElementById("image").src = "img/Hangman-1.png";
+    }
+    if (lives==4){
+        document.getElementById("image").src = "img/Hangman-2.png";
+    }
+    if (lives==3){
+        document.getElementById("image").src = "img/Hangman-3.png";
+    }
+    if (lives==2){
+        document.getElementById("image").src = "img/Hangman-4.png";
+    }
+    if (lives==1){
+        document.getElementById("image").src = "img/Hangman-5.png";
+    }
+    if (lives==0){
+        document.getElementById("image").src = "img/Hangman-6.png";
+    }
 }
 
+
+function guessLetter(letter){
+    console.log(letter);
+    picked.push(letter);
+    document.getElementById(letter).disabled=true;
+
+
+
+    if(word.indexOf(letter) == -1){
+        lives = lives - 1;
+        graveyard.push(letter);
+
+        document.getElementById("graveyard").innerHTML = graveyard;
+        document.getElementById("lives").innerHTML = lives;
+    }
+    if (lives==0){
+        document.getElementById("lives").innerHTML = "Oh no! You ran out of lives. Click 'PLAY!' to play again!";
+        for (var i=0; i<alphabet.length; i++) {
+            document.getElementById(alphabet[i]).disabled = true;
+        }
+    }
+
+    printWord();
+
+}
